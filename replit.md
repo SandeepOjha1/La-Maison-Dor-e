@@ -1,4 +1,4 @@
-# Annapurna Bakehouse — Premium Indian Artisan Bakery
+# La Maison Dorée — Premium Artisan Bakery
 
 A full-stack premium bakery website with cinematic design, online ordering, table reservations, JWT auth, and an admin dashboard.
 

@@ -61,7 +61,7 @@ export default function Navbar({ darkMode, toggleDark }: NavbarProps) {
                 <ChefHat className="w-5 h-5 text-primary-foreground" />
               </div>
               <span className="font-serif text-xl font-semibold text-foreground tracking-wide">
-                Annapurna Bakehouse
+                La Maison Dorée
               </span>
             </Link>
 

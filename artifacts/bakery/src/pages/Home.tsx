@@ -35,7 +35,7 @@ function HeroSection() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 hover:bg-primary/15 text-sm px-4 py-1.5">
-            Artisan Bakehouse Since 1991 · Mumbai
+            Artisan Bakery Since 1987
           </Badge>
         </motion.div>
 
@@ -58,7 +58,7 @@ function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
-          From saffron-kissed cakes to cardamom croissants, every creation is handcrafted with the finest ingredients. Taste the warmth of India's artisan baking heritage.
+          From buttery croissants to hand-decorated cakes, every creation is handcrafted with the finest ingredients and the most demanding standards.
         </motion.p>
 
         <motion.div
@@ -133,7 +133,7 @@ function FeaturedProducts() {
             Featured Creations
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto text-lg">
-            Handcrafted daily by our bakers — the finest ingredients, rooted in Indian tradition.
+            Handcrafted daily by our pastry chefs — the finest ingredients, the most demanding standards.
           </p>
         </motion.div>
 
@@ -190,19 +190,19 @@ function AboutSection() {
           >
             <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">Our Story</Badge>
             <h2 className="font-serif text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
-              A recipe passed down through generations
+              Born from a passion for the perfect pastry
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-4">
-              Annapurna Bakehouse was born in 1991 in the bylanes of Bandra, Mumbai, by master baker Priya Sharma. Inspired by her grandmother's kitchen — fragrant with cardamom, saffron, and ghee — she set out to reimagine Indian flavours in every loaf, cake, and pastry.
+              La Maison Dorée was founded in 1987 by Chef Michel Leblanc, trained at the Lenôtre school in Paris. What started as a small neighborhood boulangerie has become one of the city's most beloved culinary institutions.
             </p>
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              Every bread is slow-fermented overnight. Every mithai-inspired cake is made with pure ingredients. We honour tradition while embracing the craft of modern baking — because the best things always take time.
+              Every croissant is still laminated by hand. Every sourdough goes through a 36-hour fermentation. We believe the best things take time — and we take all the time they need.
             </p>
             <div className="grid grid-cols-3 gap-6">
               {[
-                { icon: Users, value: "500+", label: "Daily guests" },
-                { icon: Award, value: "18", label: "Awards won" },
-                { icon: Clock, value: "24h", label: "Slow ferment" },
+                { icon: Users, value: "200+", label: "Daily guests" },
+                { icon: Award, value: "12", label: "Awards won" },
+                { icon: Clock, value: "36h", label: "Fermentation" },
               ].map(({ icon: Icon, value, label }) => (
                 <div key={label} className="text-center">
                   <Icon className="w-6 h-6 text-primary mx-auto mb-2" />
@@ -220,10 +220,10 @@ function AboutSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="grid grid-cols-2 gap-4">
-              <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600" alt="Indian sweets" className="rounded-2xl object-cover h-64 w-full shadow-md" />
-              <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600" alt="Gulab jamun" className="rounded-2xl object-cover h-64 w-full shadow-md mt-8" />
-              <img src="https://images.unsplash.com/photo-1574085733277-851d9d856a3a?w=600" alt="Indian dessert" className="rounded-2xl object-cover h-48 w-full shadow-md" />
-              <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600" alt="Masala chai" className="rounded-2xl object-cover h-48 w-full shadow-md mt-4" />
+              <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600" alt="Bakery kitchen" className="rounded-2xl object-cover h-64 w-full shadow-md" />
+              <img src="https://images.unsplash.com/photo-1559620192-032c4bc4674e?w=600" alt="Fresh bread" className="rounded-2xl object-cover h-64 w-full shadow-md mt-8" />
+              <img src="https://images.unsplash.com/photo-1587241321921-91a834d6d191?w=600" alt="Pastries" className="rounded-2xl object-cover h-48 w-full shadow-md" />
+              <img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=600" alt="Cake decoration" className="rounded-2xl object-cover h-48 w-full shadow-md mt-4" />
             </div>
           </motion.div>
         </div>
@@ -363,21 +363,20 @@ function ContactSection() {
             <div className="space-y-5 text-muted-foreground">
               <div>
                 <div className="font-semibold text-foreground mb-1">Address</div>
-                <p>12 Linking Road, Bandra West</p>
-                <p>Mumbai, Maharashtra 400050</p>
+                <p>42 Rue de la Paix, Paris, 75002</p>
               </div>
               <div>
                 <div className="font-semibold text-foreground mb-1">Hours</div>
-                <p>Monday – Friday: 7:00 AM – 9:00 PM</p>
-                <p>Saturday – Sunday: 8:00 AM – 10:00 PM</p>
+                <p>Monday – Friday: 7:00 AM – 8:00 PM</p>
+                <p>Saturday – Sunday: 8:00 AM – 9:00 PM</p>
               </div>
               <div>
                 <div className="font-semibold text-foreground mb-1">Phone</div>
-                <p>+91 98765 43210</p>
+                <p>+33 1 42 60 00 00</p>
               </div>
               <div>
                 <div className="font-semibold text-foreground mb-1">Email</div>
-                <p>hello@annapurnabakehouse.in</p>
+                <p>hello@lamaison.com</p>
               </div>
             </div>
             <Link href="/reserve">
