@@ -95,9 +95,6 @@ export default function Login() {
             </Link>
           </p>
 
-          <div className="mt-4 p-3 bg-muted/50 rounded-lg text-xs text-muted-foreground">
-            <strong>Admin access:</strong> admin@lamaison.com / admin123
-          </div>
         </div>
       </motion.div>
     </div>
