@@ -49,7 +49,7 @@ export default function Register() {
           <div className="w-14 h-14 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
             <ChefHat className="w-7 h-7 text-primary-foreground" />
           </div>
-          <h1 className="font-serif text-3xl font-bold text-foreground">Join La Maison</h1>
+          <h1 className="font-serif text-3xl font-bold text-foreground">Join Annapurna</h1>
           <p className="text-muted-foreground mt-1">Create your account</p>
         </div>
 

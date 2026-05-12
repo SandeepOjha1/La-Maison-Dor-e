@@ -21,6 +21,12 @@ function HeroSection() {
         animate={{ scale: [1.1, 1, 1.1], opacity: [0.4, 0.2, 0.4] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
+      {/* Saffron accent blob */}
+      <motion.div
+        className="absolute top-1/2 -right-32 w-64 h-64 rounded-full bg-yellow-300/20 dark:bg-yellow-700/15 blur-3xl"
+        animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+      />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
         <motion.div
@@ -29,7 +35,7 @@ function HeroSection() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 hover:bg-primary/15 text-sm px-4 py-1.5">
-            Artisan Bakery Since 1987
+            Artisan Bakehouse Since 1991 · Mumbai
           </Badge>
         </motion.div>
 
@@ -41,9 +47,9 @@ function HeroSection() {
         >
           Baked with
           <br />
-          <span className="text-primary italic">love</span>, served
+          <span className="text-primary italic">soul</span>, served
           <br />
-          with elegance
+          with warmth
         </motion.h1>
 
         <motion.p
@@ -52,7 +58,7 @@ function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
-          From flaky croissants to rich fondant cakes, each creation is crafted by hand using the finest ingredients. Taste the tradition of authentic French pâtisserie.
+          From saffron-kissed cakes to cardamom croissants, every creation is handcrafted with the finest ingredients. Taste the warmth of India's artisan baking heritage.
         </motion.p>
 
         <motion.div
@@ -76,9 +82,9 @@ function HeroSection() {
         {/* Stats */}
         <div className="mt-16 flex justify-center gap-6 flex-wrap">
           {[
-            { value: "200+", label: "Daily customers" },
-            { value: "36+", label: "Years of craft" },
-            { value: "50+", label: "Fresh creations" },
+            { value: "500+", label: "Daily customers" },
+            { value: "33+", label: "Years of craft" },
+            { value: "60+", label: "Fresh creations" },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -127,7 +133,7 @@ function FeaturedProducts() {
             Featured Creations
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto text-lg">
-            Handcrafted daily by our pastry chefs — the finest ingredients, the most demanding standards.
+            Handcrafted daily by our bakers — the finest ingredients, rooted in Indian tradition.
           </p>
         </motion.div>
 
@@ -184,19 +190,19 @@ function AboutSection() {
           >
             <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">Our Story</Badge>
             <h2 className="font-serif text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
-              Born from a passion for the perfect pastry
+              A recipe passed down through generations
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-4">
-              La Maison Dorée was founded in 1987 by Chef Michel Leblanc, trained at the Lenôtre school in Paris. What started as a small neighborhood boulangerie has become one of the city's most beloved culinary institutions.
+              Annapurna Bakehouse was born in 1991 in the bylanes of Bandra, Mumbai, by master baker Priya Sharma. Inspired by her grandmother's kitchen — fragrant with cardamom, saffron, and ghee — she set out to reimagine Indian flavours in every loaf, cake, and pastry.
             </p>
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              Every croissant is still laminated by hand. Every sourdough goes through a 36-hour fermentation. We believe the best things take time — and we take all the time they need.
+              Every bread is slow-fermented overnight. Every mithai-inspired cake is made with pure ingredients. We honour tradition while embracing the craft of modern baking — because the best things always take time.
             </p>
             <div className="grid grid-cols-3 gap-6">
               {[
-                { icon: Users, value: "200+", label: "Daily guests" },
-                { icon: Award, value: "12", label: "Awards won" },
-                { icon: Clock, value: "36h", label: "Fermentation" },
+                { icon: Users, value: "500+", label: "Daily guests" },
+                { icon: Award, value: "18", label: "Awards won" },
+                { icon: Clock, value: "24h", label: "Slow ferment" },
               ].map(({ icon: Icon, value, label }) => (
                 <div key={label} className="text-center">
                   <Icon className="w-6 h-6 text-primary mx-auto mb-2" />
@@ -214,10 +220,10 @@ function AboutSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="grid grid-cols-2 gap-4">
-              <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600" alt="Bakery kitchen" className="rounded-2xl object-cover h-64 w-full shadow-md" />
-              <img src="https://images.unsplash.com/photo-1559620192-032c4bc4674e?w=600" alt="Fresh bread" className="rounded-2xl object-cover h-64 w-full shadow-md mt-8" />
-              <img src="https://images.unsplash.com/photo-1587241321921-91a834d6d191?w=600" alt="Pastries" className="rounded-2xl object-cover h-48 w-full shadow-md" />
-              <img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=600" alt="Cake decoration" className="rounded-2xl object-cover h-48 w-full shadow-md mt-4" />
+              <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600" alt="Indian sweets" className="rounded-2xl object-cover h-64 w-full shadow-md" />
+              <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600" alt="Gulab jamun" className="rounded-2xl object-cover h-64 w-full shadow-md mt-8" />
+              <img src="https://images.unsplash.com/photo-1574085733277-851d9d856a3a?w=600" alt="Indian dessert" className="rounded-2xl object-cover h-48 w-full shadow-md" />
+              <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600" alt="Masala chai" className="rounded-2xl object-cover h-48 w-full shadow-md mt-4" />
             </div>
           </motion.div>
         </div>
@@ -288,12 +294,15 @@ function GallerySection() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   const images = [
-    { src: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800", alt: "Cake", tall: true },
-    { src: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800", alt: "Croissant", tall: false },
-    { src: "https://images.unsplash.com/photo-1564355808539-22fda35bed7e?w=800", alt: "Macaron", tall: false },
-    { src: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800", alt: "Tarte", tall: true },
-    { src: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800", alt: "Bread", tall: false },
+    { src: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=800", alt: "Indian sweets", tall: true },
+    { src: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=800", alt: "Gulab jamun", tall: false },
+    { src: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800", alt: "Celebration cake", tall: false },
+    { src: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=800", alt: "Masala chai", tall: true },
+    { src: "https://images.unsplash.com/photo-1574085733277-851d9d856a3a?w=800", alt: "Indian dessert spread", tall: false },
+    { src: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800", alt: "Fresh bread", tall: false },
+    { src: "https://images.unsplash.com/photo-1571197119068-8bfc7b2aef05?w=800", alt: "Jalebi", tall: true },
     { src: "https://images.unsplash.com/photo-1527515637462-cff94ebb58ab?w=800", alt: "Donuts", tall: false },
+    { src: "https://images.unsplash.com/photo-1564355808539-22fda35bed7e?w=800", alt: "Colourful pastries", tall: false },
   ];
 
   return (
@@ -307,6 +316,9 @@ function GallerySection() {
         >
           <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">Gallery</Badge>
           <h2 className="font-serif text-4xl lg:text-5xl font-bold text-foreground">From our kitchen</h2>
+          <p className="text-muted-foreground mt-3 max-w-lg mx-auto">
+            A glimpse into the colours, textures, and flavours we craft every day.
+          </p>
         </motion.div>
 
         <div className="columns-2 md:columns-3 gap-4 space-y-4">
@@ -316,10 +328,15 @@ function GallerySection() {
               className="break-inside-avoid overflow-hidden rounded-2xl"
               initial={{ opacity: 0, scale: 0.96 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: i * 0.08, duration: 0.5 }}
+              transition={{ delay: i * 0.07, duration: 0.5 }}
               whileHover={{ scale: 1.02 }}
             >
-              <img src={img.src} alt={img.alt} className={`w-full object-cover ${img.tall ? "h-72" : "h-48"}`} loading="lazy" />
+              <img
+                src={img.src}
+                alt={img.alt}
+                className={`w-full object-cover ${img.tall ? "h-72" : "h-48"}`}
+                loading="lazy"
+              />
             </motion.div>
           ))}
         </div>
@@ -346,20 +363,21 @@ function ContactSection() {
             <div className="space-y-5 text-muted-foreground">
               <div>
                 <div className="font-semibold text-foreground mb-1">Address</div>
-                <p>42 Rue de la Paix, Paris, 75002</p>
+                <p>12 Linking Road, Bandra West</p>
+                <p>Mumbai, Maharashtra 400050</p>
               </div>
               <div>
                 <div className="font-semibold text-foreground mb-1">Hours</div>
-                <p>Monday – Friday: 7:00 AM – 8:00 PM</p>
-                <p>Saturday – Sunday: 8:00 AM – 9:00 PM</p>
+                <p>Monday – Friday: 7:00 AM – 9:00 PM</p>
+                <p>Saturday – Sunday: 8:00 AM – 10:00 PM</p>
               </div>
               <div>
                 <div className="font-semibold text-foreground mb-1">Phone</div>
-                <p>+33 1 42 60 00 00</p>
+                <p>+91 98765 43210</p>
               </div>
               <div>
                 <div className="font-semibold text-foreground mb-1">Email</div>
-                <p>hello@lamaison.com</p>
+                <p>hello@annapurnabakehouse.in</p>
               </div>
             </div>
             <Link href="/reserve">
@@ -375,7 +393,11 @@ function ContactSection() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=900" alt="Bakery interior" className="w-full h-full object-cover" />
+            <img
+              src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900"
+              alt="Annapurna Bakehouse interior"
+              className="w-full h-full object-cover"
+            />
           </motion.div>
         </div>
       </div>

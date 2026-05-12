@@ -12,10 +12,10 @@ export default function Footer() {
               <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                 <ChefHat className="w-4 h-4 text-primary-foreground" />
               </div>
-              <span className="font-serif text-lg font-semibold">La Maison Dorée</span>
+              <span className="font-serif text-lg font-semibold">Annapurna Bakehouse</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Artisan baking since 1987. Every creation is a small act of devotion to craft, flavor, and joy.
+              Crafting India's finest bakes since 1991. Every creation is an act of devotion to flavour, tradition, and joy.
             </p>
             <div className="flex gap-3 mt-5">
               {[Instagram, Facebook, Twitter].map((Icon, i) => (
@@ -34,7 +34,7 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-sm text-foreground mb-4">Menu</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              {["Cakes", "Pastries", "Bread", "Donuts", "Coffee"].map((cat) => (
+              {["Cakes", "Pastries", "Bread", "Donuts", "Cookies", "Coffee"].map((cat) => (
                 <li key={cat}>
                   <Link href="/menu" className="hover:text-foreground transition-colors">{cat}</Link>
                 </li>
@@ -46,10 +46,10 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-sm text-foreground mb-4">Visit</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>42 Rue de la Paix</li>
-              <li>Paris, 75002</li>
-              <li className="pt-2">Mon–Fri: 7am–8pm</li>
-              <li>Sat–Sun: 8am–9pm</li>
+              <li>12 Linking Road, Bandra West</li>
+              <li>Mumbai, Maharashtra 400050</li>
+              <li className="pt-2">Mon–Fri: 7am–9pm</li>
+              <li>Sat–Sun: 8am–10pm</li>
             </ul>
           </div>
 
@@ -73,8 +73,8 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-border mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} La Maison Dorée. All rights reserved.</p>
-          <p>Crafted with love in Paris.</p>
+          <p>© {new Date().getFullYear()} Annapurna Bakehouse. All rights reserved.</p>
+          <p>Baked with love in Mumbai.</p>
         </div>
       </div>
     </footer>
