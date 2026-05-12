@@ -1,0 +1,240 @@
+Act as a senior full stack developer, UI/UX designer, branding strategist, and backend architect. Build a premium, production-level bakery website for a modern bakery brand using:
+
+Frontend: React.js / Next.js + Tailwind CSS
+Backend: Node.js + Express.js
+Database: MongoDB
+Authentication: JWT Authentication
+Animations: Framer Motion
+UI Components: Shadcn/UI
+
+The website must feel warm, luxurious, modern, elegant, and visually delicious while maintaining high performance and professional backend architecture.
+
+This is not a simple student project. The final product should look like a real bakery business hired a top digital agency to build its online presence.
+
+The website should be fully responsive, animated, SEO-optimized, and commercially deployable.
+
+Brand Identity & Visual Direction
+
+Create a bakery brand aesthetic with:
+
+Warm cream and beige tones
+Soft brown and chocolate accents
+Luxury pastel highlights
+Elegant typography
+Cozy premium atmosphere
+Cinematic food presentation
+Smooth micro-interactions
+Floating bakery-themed UI elements
+
+The design should instantly make users crave the products 🍩
+
+Core Objective
+
+Build a complete bakery business platform that:
+
+Showcases bakery products beautifully
+Accepts online orders
+Handles reservations/bookings
+Builds customer trust
+Increases conversions
+Provides a premium customer experience
+Includes a scalable backend architecture
+Mandatory Tech Stack
+Frontend
+
+Use:
+
+React.js or Next.js
+Tailwind CSS
+Framer Motion
+Shadcn/UI
+Axios
+React Router
+Mobile-first responsive design
+Backend
+
+Use:
+
+Node.js
+Express.js
+
+Implement:
+
+REST APIs
+Middleware architecture
+Secure authentication
+API validation
+Error handling
+Database
+
+Use:
+
+MongoDB
+Mongoose ODM
+
+Include:
+
+Product schemas
+User schemas
+Order schemas
+Booking schemas
+Reviews schemas
+Required Website Sections
+1. Hero Section
+
+Create a cinematic bakery hero section with:
+
+Full-screen layout
+Floating pastries/cake animations
+Fresh bakery imagery
+Warm lighting aesthetic
+Large premium headline
+Short emotional tagline
+CTA buttons:
+Order Now
+View Menu
+Book a Table
+
+Add:
+
+Smooth entrance animations
+Animated background gradients
+Floating UI cards
+Motion effects
+2. About Bakery Section
+
+Include:
+
+Bakery story
+Chef introduction
+Brand philosophy
+Handmade freshness concept
+Animated stats:
+Daily customers
+Years of experience
+Fresh products served
+Elegant image layouts
+3. Featured Products Section
+
+Build modern bakery product cards with:
+
+High-quality product images
+Price
+Ratings
+Add to cart button
+Hover animations
+Quick preview modal
+Product categories:
+Cakes
+Pastries
+Bread
+Donuts
+Cookies
+Coffee
+
+Add:
+
+Filtering system
+Search functionality
+Smooth transitions
+4. Online Ordering System
+
+Implement a complete ordering system using:
+
+Node.js + Express.js backend
+MongoDB database
+
+Features:
+
+Add to cart
+Quantity controls
+Coupon system
+Checkout flow
+Order tracking
+Payment integration UI
+Address management
+Order confirmation emails
+5. Reservation / Booking System
+
+Create:
+
+Table reservation form
+Date & time picker
+Guest count selector
+Reservation management system
+Email confirmations
+Admin booking dashboard
+6. Testimonials Section
+
+Include:
+
+Customer reviews
+Star ratings
+Animated testimonial carousel
+Elegant customer cards
+Social proof section
+7. Gallery Section
+
+Create:
+
+Masonry bakery gallery
+Lightbox image preview
+Smooth image animations
+Bakery kitchen showcase
+Dessert showcase
+8. Contact Section
+
+Include:
+
+Functional contact form
+Google Maps integration
+Bakery timing
+Social media links
+WhatsApp quick order button
+Phone call CTA
+Backend Features
+
+Build a scalable backend using Node.js + Express.js + MongoDB with:
+
+JWT Authentication
+Login/Register system
+Role-based access
+Admin dashboard APIs
+Product management APIs
+Order management APIs
+Booking APIs
+Review APIs
+Contact APIs
+Image upload system
+Protected admin routes
+Error handling middleware
+API validation
+Environment variables
+Secure MongoDB integration
+Admin Dashboard
+
+Build a modern bakery admin panel with:
+
+Sales analytics
+Order management
+Product management
+Reservation management
+Customer messages
+Review moderation
+Image uploads
+Dashboard charts
+Dark/light mode
+Advanced UI/UX Features
+
+Add:
+
+Sticky animated navbar
+Scroll progress indicator
+Skeleton loaders
+Toast notifications
+Smooth page transitions
+Floating dessert animations
+Interactive hover effects
+Custom cursor
+Dark/light mode
+Premium loading screen
