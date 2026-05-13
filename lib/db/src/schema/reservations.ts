@@ -1,20 +1,42 @@
-import { pgTable, text, serial, timestamp, integer } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod/v4";
+import mongoose, { Schema, type Document, type Model } from "mongoose";
 
-export const reservationsTable = pgTable("reservations", {
-  id: serial("id").primaryKey(),
-  customerName: text("customer_name").notNull(),
-  customerEmail: text("customer_email").notNull(),
-  customerPhone: text("customer_phone").notNull(),
-  date: text("date").notNull(),
-  time: text("time").notNull(),
-  guestCount: integer("guest_count").notNull(),
-  specialRequests: text("special_requests"),
-  status: text("status").notNull().default("pending"),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+export interface IReservation extends Document {
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  date: string;
+  time: string;
+  guestCount: number;
+  specialRequests: string | null;
+  status: string;
+  createdAt: Date;
+}
 
-export const insertReservationSchema = createInsertSchema(reservationsTable).omit({ id: true, createdAt: true });
-export type InsertReservation = z.infer<typeof insertReservationSchema>;
-export type Reservation = typeof reservationsTable.$inferSelect;
+const ReservationSchema = new Schema<IReservation>(
+  {
+    customerName: { type: String, required: true },
+    customerEmail: { type: String, required: true },
+    customerPhone: { type: String, required: true },
+    date: { type: String, required: true },
+    time: { type: String, required: true },
+    guestCount: { type: Number, required: true },
+    specialRequests: { type: String, default: null },
+    status: { type: String, required: true, default: "pending" },
+  },
+  {
+    timestamps: { createdAt: true, updatedAt: false },
+    toJSON: {
+      virtuals: true,
+      transform: (_, ret) => {
+        ret.id = ret._id.toString();
+        delete ret._id;
+        delete ret.__v;
+        return ret;
+      },
+    },
+  },
+);
+
+export const ReservationModel: Model<IReservation> =
+  mongoose.models.Reservation ||
+  mongoose.model<IReservation>("Reservation", ReservationSchema);

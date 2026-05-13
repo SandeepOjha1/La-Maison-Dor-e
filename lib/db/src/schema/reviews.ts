@@ -1,17 +1,35 @@
-import { pgTable, text, serial, timestamp, integer, boolean } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod/v4";
+import mongoose, { Schema, type Document, type Model } from "mongoose";
 
-export const reviewsTable = pgTable("reviews", {
-  id: serial("id").primaryKey(),
-  customerName: text("customer_name").notNull(),
-  customerEmail: text("customer_email"),
-  rating: integer("rating").notNull(),
-  comment: text("comment").notNull(),
-  approved: boolean("approved").notNull().default(false),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+export interface IReview extends Document {
+  customerName: string;
+  customerEmail: string | null;
+  rating: number;
+  comment: string;
+  approved: boolean;
+  createdAt: Date;
+}
 
-export const insertReviewSchema = createInsertSchema(reviewsTable).omit({ id: true, createdAt: true });
-export type InsertReview = z.infer<typeof insertReviewSchema>;
-export type Review = typeof reviewsTable.$inferSelect;
+const ReviewSchema = new Schema<IReview>(
+  {
+    customerName: { type: String, required: true },
+    customerEmail: { type: String, default: null },
+    rating: { type: Number, required: true, min: 1, max: 5 },
+    comment: { type: String, required: true },
+    approved: { type: Boolean, required: true, default: false },
+  },
+  {
+    timestamps: { createdAt: true, updatedAt: false },
+    toJSON: {
+      virtuals: true,
+      transform: (_, ret) => {
+        ret.id = ret._id.toString();
+        delete ret._id;
+        delete ret.__v;
+        return ret;
+      },
+    },
+  },
+);
+
+export const ReviewModel: Model<IReview> =
+  mongoose.models.Review || mongoose.model<IReview>("Review", ReviewSchema);

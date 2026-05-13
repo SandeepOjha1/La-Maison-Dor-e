@@ -1,5 +1,5 @@
 import { Router, type IRouter } from "express";
-import { db, contactMessagesTable } from "@workspace/db";
+import { ContactMessageModel } from "@workspace/db";
 import { SubmitContactBody } from "@workspace/api-zod";
 import { requireAdmin } from "./auth";
 
@@ -11,13 +11,13 @@ router.post("/contact", async (req, res): Promise<void> => {
     res.status(400).json({ error: parsed.error.message });
     return;
   }
-  const [msg] = await db.insert(contactMessagesTable).values(parsed.data).returning();
-  res.status(201).json(msg);
+  const msg = await ContactMessageModel.create(parsed.data);
+  res.status(201).json(msg.toJSON());
 });
 
 router.get("/contact/messages", requireAdmin, async (_req, res): Promise<void> => {
-  const messages = await db.select().from(contactMessagesTable).orderBy(contactMessagesTable.createdAt);
-  res.json(messages);
+  const messages = await ContactMessageModel.find().sort({ createdAt: 1 });
+  res.json(messages.map((m) => m.toJSON()));
 });
 
 export default router;

@@ -1,18 +1,38 @@
-import { pgTable, text, serial, timestamp, boolean } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod/v4";
+import mongoose, { Schema, type Document, type Model } from "mongoose";
 
-export const contactMessagesTable = pgTable("contact_messages", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  email: text("email").notNull(),
-  subject: text("subject").notNull(),
-  message: text("message").notNull(),
-  phone: text("phone"),
-  read: boolean("read").notNull().default(false),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+export interface IContactMessage extends Document {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  phone: string | null;
+  read: boolean;
+  createdAt: Date;
+}
 
-export const insertContactMessageSchema = createInsertSchema(contactMessagesTable).omit({ id: true, createdAt: true });
-export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;
-export type ContactMessage = typeof contactMessagesTable.$inferSelect;
+const ContactMessageSchema = new Schema<IContactMessage>(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    subject: { type: String, required: true },
+    message: { type: String, required: true },
+    phone: { type: String, default: null },
+    read: { type: Boolean, required: true, default: false },
+  },
+  {
+    timestamps: { createdAt: true, updatedAt: false },
+    toJSON: {
+      virtuals: true,
+      transform: (_, ret) => {
+        ret.id = ret._id.toString();
+        delete ret._id;
+        delete ret.__v;
+        return ret;
+      },
+    },
+  },
+);
+
+export const ContactMessageModel: Model<IContactMessage> =
+  mongoose.models.ContactMessage ||
+  mongoose.model<IContactMessage>("ContactMessage", ContactMessageSchema);

@@ -1,18 +1,14 @@
 import { Router, type IRouter } from "express";
-import { db, reviewsTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
-import { CreateReviewBody, ApproveReviewParams } from "@workspace/api-zod";
+import mongoose from "mongoose";
+import { ReviewModel } from "@workspace/db";
+import { CreateReviewBody } from "@workspace/api-zod";
 import { requireAdmin } from "./auth";
 
 const router: IRouter = Router();
 
 router.get("/reviews", async (_req, res): Promise<void> => {
-  const reviews = await db
-    .select()
-    .from(reviewsTable)
-    .where(eq(reviewsTable.approved, true))
-    .orderBy(reviewsTable.createdAt);
-  res.json(reviews);
+  const reviews = await ReviewModel.find({ approved: true }).sort({ createdAt: 1 });
+  res.json(reviews.map((r) => r.toJSON()));
 });
 
 router.post("/reviews", async (req, res): Promise<void> => {
@@ -21,26 +17,22 @@ router.post("/reviews", async (req, res): Promise<void> => {
     res.status(400).json({ error: parsed.error.message });
     return;
   }
-  const [review] = await db.insert(reviewsTable).values({ ...parsed.data, approved: false }).returning();
-  res.status(201).json(review);
+  const review = await ReviewModel.create({ ...parsed.data, approved: false });
+  res.status(201).json(review.toJSON());
 });
 
 router.patch("/reviews/:id/approve", requireAdmin, async (req: any, res): Promise<void> => {
-  const params = ApproveReviewParams.safeParse(req.params);
-  if (!params.success) {
-    res.status(400).json({ error: params.error.message });
+  const { id } = req.params;
+  if (!mongoose.isValidObjectId(id)) {
+    res.status(400).json({ error: "Invalid review ID" });
     return;
   }
-  const [review] = await db
-    .update(reviewsTable)
-    .set({ approved: true })
-    .where(eq(reviewsTable.id, params.data.id))
-    .returning();
+  const review = await ReviewModel.findByIdAndUpdate(id, { approved: true }, { new: true });
   if (!review) {
     res.status(404).json({ error: "Review not found" });
     return;
   }
-  res.json(review);
+  res.json(review.toJSON());
 });
 
 export default router;

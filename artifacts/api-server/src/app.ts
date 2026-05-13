@@ -3,6 +3,8 @@ import cors from "cors";
 import pinoHttp from "pino-http";
 import router from "./routes";
 import { logger } from "./lib/logger";
+import { connectDB } from "@workspace/db";
+import { seedDatabase } from "./routes/seed";
 
 const app: Express = express();
 
@@ -30,5 +32,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
+
+connectDB()
+  .then(() => {
+    logger.info("Connected to MongoDB");
+    return seedDatabase();
+  })
+  .catch((err) => {
+    logger.error({ err }, "Failed to connect to MongoDB");
+  });
 
 export default app;

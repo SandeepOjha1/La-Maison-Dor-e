@@ -1,21 +1,43 @@
-import { pgTable, text, serial, timestamp, boolean, real, integer } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod/v4";
+import mongoose, { Schema, type Document, type Model } from "mongoose";
 
-export const productsTable = pgTable("products", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  description: text("description").notNull(),
-  price: real("price").notNull(),
-  category: text("category").notNull(),
-  imageUrl: text("image_url").notNull(),
-  featured: boolean("featured").notNull().default(false),
-  available: boolean("available").notNull().default(true),
-  rating: real("rating").notNull().default(0),
-  reviewCount: integer("review_count").notNull().default(0),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+export interface IProduct extends Document {
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  imageUrl: string;
+  featured: boolean;
+  available: boolean;
+  rating: number;
+  reviewCount: number;
+  createdAt: Date;
+}
 
-export const insertProductSchema = createInsertSchema(productsTable).omit({ id: true, createdAt: true });
-export type InsertProduct = z.infer<typeof insertProductSchema>;
-export type Product = typeof productsTable.$inferSelect;
+const ProductSchema = new Schema<IProduct>(
+  {
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    price: { type: Number, required: true },
+    category: { type: String, required: true },
+    imageUrl: { type: String, required: true },
+    featured: { type: Boolean, required: true, default: false },
+    available: { type: Boolean, required: true, default: true },
+    rating: { type: Number, required: true, default: 0 },
+    reviewCount: { type: Number, required: true, default: 0 },
+  },
+  {
+    timestamps: { createdAt: true, updatedAt: false },
+    toJSON: {
+      virtuals: true,
+      transform: (_, ret) => {
+        ret.id = ret._id.toString();
+        delete ret._id;
+        delete ret.__v;
+        return ret;
+      },
+    },
+  },
+);
+
+export const ProductModel: Model<IProduct> =
+  mongoose.models.Product || mongoose.model<IProduct>("Product", ProductSchema);

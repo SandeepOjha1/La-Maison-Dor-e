@@ -1,29 +1,68 @@
-import { pgTable, text, serial, timestamp, integer, real, jsonb } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod/v4";
+import mongoose, { Schema, type Document, type Model } from "mongoose";
 
-export const ordersTable = pgTable("orders", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id"),
-  customerName: text("customer_name").notNull(),
-  customerEmail: text("customer_email").notNull(),
-  customerPhone: text("customer_phone").notNull(),
-  deliveryAddress: text("delivery_address").notNull(),
-  items: jsonb("items").notNull().$type<Array<{
-    productId: number;
-    productName: string;
-    quantity: number;
-    unitPrice: number;
-  }>>(),
-  subtotal: real("subtotal").notNull(),
-  discount: real("discount").notNull().default(0),
-  total: real("total").notNull(),
-  couponCode: text("coupon_code"),
-  notes: text("notes"),
-  status: text("status").notNull().default("pending"),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+export interface IOrderItem {
+  productId: string;
+  productName: string;
+  category: string;
+  quantity: number;
+  unitPrice: number;
+}
 
-export const insertOrderSchema = createInsertSchema(ordersTable).omit({ id: true, createdAt: true });
-export type InsertOrder = z.infer<typeof insertOrderSchema>;
-export type Order = typeof ordersTable.$inferSelect;
+export interface IOrder extends Document {
+  userId: string | null;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  deliveryAddress: string;
+  items: IOrderItem[];
+  subtotal: number;
+  discount: number;
+  total: number;
+  couponCode: string | null;
+  notes: string | null;
+  status: string;
+  createdAt: Date;
+}
+
+const OrderItemSchema = new Schema<IOrderItem>(
+  {
+    productId: { type: String, required: true },
+    productName: { type: String, required: true },
+    category: { type: String, required: true, default: "" },
+    quantity: { type: Number, required: true },
+    unitPrice: { type: Number, required: true },
+  },
+  { _id: false },
+);
+
+const OrderSchema = new Schema<IOrder>(
+  {
+    userId: { type: String, default: null },
+    customerName: { type: String, required: true },
+    customerEmail: { type: String, required: true },
+    customerPhone: { type: String, required: true },
+    deliveryAddress: { type: String, required: true },
+    items: { type: [OrderItemSchema], required: true },
+    subtotal: { type: Number, required: true },
+    discount: { type: Number, required: true, default: 0 },
+    total: { type: Number, required: true },
+    couponCode: { type: String, default: null },
+    notes: { type: String, default: null },
+    status: { type: String, required: true, default: "pending" },
+  },
+  {
+    timestamps: { createdAt: true, updatedAt: false },
+    toJSON: {
+      virtuals: true,
+      transform: (_, ret) => {
+        ret.id = ret._id.toString();
+        delete ret._id;
+        delete ret.__v;
+        return ret;
+      },
+    },
+  },
+);
+
+export const OrderModel: Model<IOrder> =
+  mongoose.models.Order || mongoose.model<IOrder>("Order", OrderSchema);

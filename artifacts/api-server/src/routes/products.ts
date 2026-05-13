@@ -1,12 +1,9 @@
 import { Router, type IRouter } from "express";
-import { db, productsTable } from "@workspace/db";
-import { eq, ilike, and } from "drizzle-orm";
+import mongoose from "mongoose";
+import { ProductModel } from "@workspace/db";
 import {
   CreateProductBody,
   UpdateProductBody,
-  GetProductParams,
-  UpdateProductParams,
-  DeleteProductParams,
   ListProductsQueryParams,
 } from "@workspace/api-zod";
 import { requireAdmin } from "./auth";
@@ -22,22 +19,16 @@ router.get("/products", async (req, res): Promise<void> => {
   const queryParsed = ListProductsQueryParams.safeParse(req.query);
   const query = queryParsed.success ? queryParsed.data : {};
 
-  let products = await db.select().from(productsTable);
-
-  if (query.category) {
-    products = products.filter((p) => p.category.toLowerCase() === query.category!.toLowerCase());
-  }
+  const filter: Record<string, unknown> = {};
+  if (query.category) filter.category = { $regex: new RegExp(`^${query.category}$`, "i") };
   if (query.search) {
-    const search = query.search.toLowerCase();
-    products = products.filter(
-      (p) => p.name.toLowerCase().includes(search) || p.description.toLowerCase().includes(search),
-    );
+    const rx = new RegExp(query.search, "i");
+    filter.$or = [{ name: rx }, { description: rx }];
   }
-  if (query.featured === "true") {
-    products = products.filter((p) => p.featured);
-  }
+  if (query.featured === "true") filter.featured = true;
 
-  res.json(products);
+  const products = await ProductModel.find(filter).lean({ virtuals: true }).sort({ createdAt: 1 });
+  res.json(products.map((p) => ({ ...p, id: (p as any)._id.toString(), _id: undefined, __v: undefined })));
 });
 
 router.post("/products", requireAdmin, async (req: any, res): Promise<void> => {
@@ -46,28 +37,28 @@ router.post("/products", requireAdmin, async (req: any, res): Promise<void> => {
     res.status(400).json({ error: parsed.error.message });
     return;
   }
-  const [product] = await db.insert(productsTable).values(parsed.data).returning();
-  res.status(201).json(product);
+  const product = await ProductModel.create(parsed.data);
+  res.status(201).json(product.toJSON());
 });
 
 router.get("/products/:id", async (req, res): Promise<void> => {
-  const params = GetProductParams.safeParse(req.params);
-  if (!params.success) {
-    res.status(400).json({ error: params.error.message });
+  const { id } = req.params;
+  if (!mongoose.isValidObjectId(id)) {
+    res.status(400).json({ error: "Invalid product ID" });
     return;
   }
-  const [product] = await db.select().from(productsTable).where(eq(productsTable.id, params.data.id));
+  const product = await ProductModel.findById(id);
   if (!product) {
     res.status(404).json({ error: "Product not found" });
     return;
   }
-  res.json(product);
+  res.json(product.toJSON());
 });
 
 router.patch("/products/:id", requireAdmin, async (req: any, res): Promise<void> => {
-  const params = UpdateProductParams.safeParse(req.params);
-  if (!params.success) {
-    res.status(400).json({ error: params.error.message });
+  const { id } = req.params;
+  if (!mongoose.isValidObjectId(id)) {
+    res.status(400).json({ error: "Invalid product ID" });
     return;
   }
   const parsed = UpdateProductBody.safeParse(req.body);
@@ -75,25 +66,21 @@ router.patch("/products/:id", requireAdmin, async (req: any, res): Promise<void>
     res.status(400).json({ error: parsed.error.message });
     return;
   }
-  const [product] = await db
-    .update(productsTable)
-    .set(parsed.data)
-    .where(eq(productsTable.id, params.data.id))
-    .returning();
+  const product = await ProductModel.findByIdAndUpdate(id, parsed.data, { new: true });
   if (!product) {
     res.status(404).json({ error: "Product not found" });
     return;
   }
-  res.json(product);
+  res.json(product.toJSON());
 });
 
 router.delete("/products/:id", requireAdmin, async (req: any, res): Promise<void> => {
-  const params = DeleteProductParams.safeParse(req.params);
-  if (!params.success) {
-    res.status(400).json({ error: params.error.message });
+  const { id } = req.params;
+  if (!mongoose.isValidObjectId(id)) {
+    res.status(400).json({ error: "Invalid product ID" });
     return;
   }
-  const [product] = await db.delete(productsTable).where(eq(productsTable.id, params.data.id)).returning();
+  const product = await ProductModel.findByIdAndDelete(id);
   if (!product) {
     res.status(404).json({ error: "Product not found" });
     return;

@@ -1,8 +1,8 @@
 import { Router, type IRouter } from "express";
-import { db, ordersTable, productsTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
-import { CreateOrderBody, GetOrderParams, UpdateOrderStatusBody, UpdateOrderStatusParams } from "@workspace/api-zod";
-import { requireAdmin, requireAuth } from "./auth";
+import mongoose from "mongoose";
+import { OrderModel, ProductModel } from "@workspace/db";
+import { CreateOrderBody, UpdateOrderStatusBody } from "@workspace/api-zod";
+import { requireAdmin } from "./auth";
 
 const router: IRouter = Router();
 
@@ -13,8 +13,8 @@ const VALID_COUPONS: Record<string, number> = {
 };
 
 router.get("/orders", requireAdmin, async (_req, res): Promise<void> => {
-  const orders = await db.select().from(ordersTable).orderBy(ordersTable.createdAt);
-  res.json(orders);
+  const orders = await OrderModel.find().sort({ createdAt: 1 });
+  res.json(orders.map((o) => o.toJSON()));
 });
 
 router.post("/orders", async (req: any, res): Promise<void> => {
@@ -26,20 +26,26 @@ router.post("/orders", async (req: any, res): Promise<void> => {
 
   const { customerName, customerEmail, customerPhone, deliveryAddress, items, couponCode, notes } = parsed.data;
 
-  const orderItems: Array<{ productId: number; productName: string; quantity: number; unitPrice: number }> = [];
+  const orderItems: Array<{ productId: string; productName: string; category: string; quantity: number; unitPrice: number }> = [];
   let subtotal = 0;
 
   for (const item of items) {
-    const [product] = await db.select().from(productsTable).where(eq(productsTable.id, item.productId));
+    const productId = String(item.productId);
+    if (!mongoose.isValidObjectId(productId)) {
+      res.status(400).json({ error: `Invalid product ID: ${productId}` });
+      return;
+    }
+    const product = await ProductModel.findById(productId);
     if (!product) {
-      res.status(400).json({ error: `Product ${item.productId} not found` });
+      res.status(400).json({ error: `Product ${productId} not found` });
       return;
     }
     const itemTotal = product.price * item.quantity;
     subtotal += itemTotal;
     orderItems.push({
-      productId: product.id,
+      productId: product._id.toString(),
       productName: product.name,
+      category: product.category,
       quantity: item.quantity,
       unitPrice: product.price,
     });
@@ -53,45 +59,42 @@ router.post("/orders", async (req: any, res): Promise<void> => {
 
   const total = Math.max(0, subtotal - discount);
 
-  const [order] = await db
-    .insert(ordersTable)
-    .values({
-      userId: req.userId ?? null,
-      customerName,
-      customerEmail,
-      customerPhone,
-      deliveryAddress,
-      items: orderItems,
-      subtotal,
-      discount,
-      total,
-      couponCode: couponCode ?? null,
-      notes: notes ?? null,
-      status: "pending",
-    })
-    .returning();
+  const order = await OrderModel.create({
+    userId: req.userId ?? null,
+    customerName,
+    customerEmail,
+    customerPhone,
+    deliveryAddress,
+    items: orderItems,
+    subtotal,
+    discount,
+    total,
+    couponCode: couponCode ?? null,
+    notes: notes ?? null,
+    status: "pending",
+  });
 
-  res.status(201).json(order);
+  res.status(201).json(order.toJSON());
 });
 
 router.get("/orders/:id", async (req: any, res): Promise<void> => {
-  const params = GetOrderParams.safeParse(req.params);
-  if (!params.success) {
-    res.status(400).json({ error: params.error.message });
+  const { id } = req.params;
+  if (!mongoose.isValidObjectId(id)) {
+    res.status(400).json({ error: "Invalid order ID" });
     return;
   }
-  const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, params.data.id));
+  const order = await OrderModel.findById(id);
   if (!order) {
     res.status(404).json({ error: "Order not found" });
     return;
   }
-  res.json(order);
+  res.json(order.toJSON());
 });
 
 router.patch("/orders/:id", requireAdmin, async (req: any, res): Promise<void> => {
-  const params = UpdateOrderStatusParams.safeParse(req.params);
-  if (!params.success) {
-    res.status(400).json({ error: params.error.message });
+  const { id } = req.params;
+  if (!mongoose.isValidObjectId(id)) {
+    res.status(400).json({ error: "Invalid order ID" });
     return;
   }
   const parsed = UpdateOrderStatusBody.safeParse(req.body);
@@ -99,16 +102,12 @@ router.patch("/orders/:id", requireAdmin, async (req: any, res): Promise<void> =
     res.status(400).json({ error: parsed.error.message });
     return;
   }
-  const [order] = await db
-    .update(ordersTable)
-    .set({ status: parsed.data.status })
-    .where(eq(ordersTable.id, params.data.id))
-    .returning();
+  const order = await OrderModel.findByIdAndUpdate(id, { status: parsed.data.status }, { new: true });
   if (!order) {
     res.status(404).json({ error: "Order not found" });
     return;
   }
-  res.json(order);
+  res.json(order.toJSON());
 });
 
 export default router;
