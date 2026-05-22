@@ -73,7 +73,7 @@ A full-stack premium bakery website with online ordering, reservations, JWT auth
 
 ---
 
-[Website Link:] (https://asset-manager--sandeepojha040.replit.app)
+[Website Link](https://asset-manager--sandeepojha040.replit.app)
 
 # 🎨 Design System
 
