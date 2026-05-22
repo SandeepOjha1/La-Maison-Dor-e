@@ -75,28 +75,6 @@ A full-stack premium bakery website with online ordering, reservations, JWT auth
 
 [Website Link](https://asset-manager--sandeepojha040.replit.app)
 
-# 🎨 Design System
-
-### Theme
-
-* Warm amber & chocolate palette
-* Cream background tones
-* Editorial premium aesthetic
-
-### Typography
-
-* **Playfair Display** — headings
-* **Inter** — body text
-
-### UI Goals
-
-* Elegant
-* Minimal
-* Premium
-* Cinematic
-
----
-
 # 🧁 Product Modules
 
 ## Homepage
